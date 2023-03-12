@@ -18,18 +18,19 @@
 
         <!--Grid Columns-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="303*" x:Name="firstColumn"/>
-            <ColumnDefinition Width="201*" x:Name="SecondColumn"/>
-            <ColumnDefinition Width="296*" x:Name="ThirdColumn"/>
+            <ColumnDefinition Width="157*" x:Name="firstColumn"/>
+            <ColumnDefinition Width="104*" x:Name="SecondColumn"/>
+            <ColumnDefinition Width="153*" x:Name="ThirdColumn"/>
         </Grid.ColumnDefinitions>
 
         <!--Labels-->
         <Label Content="Name:" Width="46" HorizontalAlignment="Left" Grid.Row="0" Margin="0,4,0,4" FontWeight="Bold"/>
-        <Label Content="Category:" Grid.Row="1" FontWeight="Bold"/>
-        <Label Content="Structures:" Grid.Row="2" FontWeight="Bold"/>
-        <Label Content="Definition:" Grid.Row="3" FontWeight="Bold"/>
+        <Label Content="Category:" Grid.Row="1" FontWeight="Bold" Grid.ColumnSpan="2" Margin="0,0,206,0"/>
+        <Label Content="Structures:" Grid.Row="2" FontWeight="Bold" Grid.ColumnSpan="2" Margin="0,0,206,0"/>
+        <Label Content="Definition:" Grid.Row="3" FontWeight="Bold" Grid.ColumnSpan="2" Margin="0,0,206,0"/>
+
         <!--Name TextBox, Category Combo Box, Structures Groupbox + Radio buttons & Def Multi-Line-->
-        <StackPanel Margin="51,10,37,0" Width="215" Height="252" Orientation="Vertical" Grid.RowSpan="4">
+        <StackPanel Margin="56,10,43,0" Orientation="Vertical" Grid.RowSpan="4">
             <TextBox x:Name="txtboxName" Height="Auto" Width="150"/>
             <ComboBox x:Name="cbCategory" Height="Auto" Width="150" Margin="0,20,0,0"/>
             <GroupBox Height="53" Width="162" Margin="0, 10, 0, 0" BorderBrush="{x:Null}" Foreground="{x:Null}">
@@ -42,8 +43,8 @@
         </StackPanel>
 
         <!--List View-->
-        <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="3" Margin="10,0,10,10"/>
-
+        <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="2" Margin="10,0,48,10"/>
+        
         <!--Buttons-->
         <Canvas Grid.Column="1" Margin="0,10,10,20" Grid.RowSpan="4">
             <Label Content="Search:" Grid.ColumnSpan="2" Grid.RowSpan="2" FontWeight="Bold" Canvas.Left="-17" Canvas.Top="6"/>
