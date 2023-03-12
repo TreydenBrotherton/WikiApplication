@@ -22,7 +22,6 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
-
         
         public MainWindow()
         {
@@ -35,7 +34,7 @@ namespace WikiApplication
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
             if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
             {
-                // Instance of Information Class, I use this to access the public getters and setters in Information.cs
+                // Creates a new object of Information
                 Information newInformation = new Information();
 
                 // checks what radio button is selected, sets the structure to selected option as a string
@@ -52,10 +51,11 @@ namespace WikiApplication
                     MessageBox.Show("Please select a Structure Option");
                 }
 
-
+                // Gets the attributes from Information.cs and adds the users input to related attribute
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
                 newInformation.definition = txtboxDef.Text;
+                // Adds the object to the Wiki List
                 Wiki.Add(newInformation);
             }
             else
@@ -87,10 +87,29 @@ namespace WikiApplication
                 Close();
             }
         }
-        // Valid Name Method
+        // Valid Name Method (Changed the name to IsNameDuplciate as it makes more sense to me)
+        private bool IsNameDuplciate()
+        {
+            // returns true if theres an entry with the same name in Wiki, returns false if its not a duplciate
+            bool isDuplicate = Wiki.Exists(e => e.name.Equals(txtboxName.Text));
+
+            if (isDuplicate)
+            {
+                MessageBox.Show("Found a duplicate");
+                Clear();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+
+        }
         // Group Box Methods (Highlight and return)
         // Delete Method
         // Edit Method
+
         // Sort and Display Method
         private void SortandDisplay()
         {
@@ -102,6 +121,7 @@ namespace WikiApplication
             }    
         }
         // Built-in Binary Search method
+
         // Clear Method (Reset all boxes and buttons)
         private void Clear()
         {
@@ -115,12 +135,19 @@ namespace WikiApplication
         // Load Method
 
         // --- Buttons & Events --- //
+
         // Add Button
         private void Add_Clicked(object sender, RoutedEventArgs e)
         {
-            Add();
-            SortandDisplay();
-            Clear();
+            // if IsDuplciate returns false adds entry to Wiki, sorts and then displays
+            if (IsNameDuplciate() == false)
+            {
+                Add();
+                SortandDisplay();
+                Clear();
+            }
+            
+            
         }
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
