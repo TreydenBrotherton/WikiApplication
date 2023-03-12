@@ -21,19 +21,36 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>();
+        Information newInformation = new Information();
         public MainWindow()
         {
             InitializeComponent();
         }
+        // --- Methods --- //
+        // Add Method
+        // ComboBox on Form Load Method 
+        // Valid Name Method
+        // Group Box Methods (Highlight and return)
+        // Delete Method
+        // Edit Method
+        // Sort and Display Method
+        // Built-in Binary Search method
+        // Clear Method (Reset all boxes and buttons)
+        // Save Method
+        // Load Method
 
+        // --- Buttons & Events --- //
+        // Add Button
         private void Add_Clicked(object sender, RoutedEventArgs e)
         {
-            Wiki.Add(new Information("Array", "Array", "C", "D"));
-            Wiki.Sort();
-            foreach (var item in Wiki) 
-            {
-                lvData.Items.Add(item);
-            }
+            
         }
+        // Search Button
+        // Edit Button
+        // Delete Button
+        // Save Button
+        // Load Button
+        // ListView Selected Event
+        // Double Click Name Event
     }
 }

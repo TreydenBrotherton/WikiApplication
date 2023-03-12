@@ -8,11 +8,36 @@ namespace WikiApplication
 {
     class Information : IComparable<Information>
     {
-        private string Name { get; set; }
-        private string Category { get; set; }
-        private string Structure { get; set; }
-        private string Definition { get; set; }
+        // variables
+        private string Name;
+        private string Category;
+        private string Structure;
+        private string Definition;
 
+        // Create separate setters and getters for each variable
+        public string name
+        {
+            get { return Name; }
+            set { Name = value; }
+        }
+
+        public string category
+        {
+            get { return Category; }
+            set { Category = value; }
+        }
+
+        public string structure
+        {
+            get { return Structure; }
+            set { Structure = value; }
+        }
+
+        public string definition
+        {
+            get { return Definition; }
+            set { Definition = value; }
+        }
         // Constructor 
         public Information(string name, string category, string structure, string definition)
         {
@@ -20,6 +45,10 @@ namespace WikiApplication
             this.Category = category;
             this.Structure = structure;
             this.Definition = definition;
+        }
+
+        public Information()
+        {
         }
 
         // overrides toString so when displaying items from Wiki, only name and category displays
