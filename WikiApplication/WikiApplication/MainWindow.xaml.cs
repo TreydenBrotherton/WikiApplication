@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,28 @@ namespace WikiApplication
         // --- Methods --- //
         // Add Method
         // ComboBox on Form Load Method 
+        private void loadComboBox()
+        {
+            try
+            {
+                string[] options = File.ReadAllLines("Options.txt"); // Reads the content of Options.txt into an string array
+
+                foreach (string option in options) // Adds each item in Options.txt to the combo box
+                {
+                    cbCategory.Items.Add(option);
+                }
+            }
+            catch (FileNotFoundException) // If file does not exist, shows error, closes application
+            {
+                MessageBox.Show("FileNotFoundException Caught.. Closing application");
+                Close();
+            }
+            catch (Exception) // catches any other exception, shows error, closes application
+            {
+                MessageBox.Show("Exception Caught.. Closing Application");
+                Close();
+            }
+        }
         // Valid Name Method
         // Group Box Methods (Highlight and return)
         // Delete Method
@@ -44,6 +67,11 @@ namespace WikiApplication
         private void Add_Clicked(object sender, RoutedEventArgs e)
         {
             
+        }
+        // Window Loaded - When the application starts this Method is automatically ran
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadComboBox();
         }
         // Search Button
         // Edit Button
