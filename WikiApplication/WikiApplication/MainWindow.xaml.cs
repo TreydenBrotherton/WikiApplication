@@ -21,14 +21,49 @@ namespace WikiApplication
     public partial class MainWindow : Window
     {   
         
-        List<Information> Wiki= new List<Information>();
-        Information newInformation = new Information();
+        List<Information> Wiki= new List<Information>(); // Wiki List of type Information
+
+        
         public MainWindow()
         {
             InitializeComponent();
         }
         // --- Methods --- //
         // Add Method
+        private void Add()
+        {
+            // Combo box - Checks if user has selected an option that is an option or if they leave it empty
+            if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
+            {
+                // Instance of Information Class, I use this to access the public getters and setters in Information.cs
+                Information newInformation = new Information();
+
+                // checks what radio button is selected, sets the structure to selected option as a string
+                if (rdoLinear.IsChecked == true)
+                {
+                    newInformation.structure = "Linear";
+                }
+                else if (rdoNonLinear.IsChecked == true)
+                {
+                    newInformation.structure = "Non-Linear";
+                }
+                else
+                {
+                    MessageBox.Show("Please select a Structure Option");
+                }
+
+
+                newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
+                newInformation.name = txtboxName.Text;
+                newInformation.definition = txtboxDef.Text;
+                Wiki.Add(newInformation);
+            }
+            else
+            {
+                MessageBox.Show("Please make sure the information is filled out in its appropriate fields");
+            }
+           
+        }
         // ComboBox on Form Load Method 
         private void loadComboBox()
         {
@@ -57,8 +92,25 @@ namespace WikiApplication
         // Delete Method
         // Edit Method
         // Sort and Display Method
+        private void SortandDisplay()
+        {
+            lvData.Items.Clear();
+            Wiki.Sort();
+           foreach(var item in Wiki)
+            {
+                lvData.Items.Add(item);
+            }    
+        }
         // Built-in Binary Search method
         // Clear Method (Reset all boxes and buttons)
+        private void Clear()
+        {
+            txtboxName.Clear();
+            txtboxDef.Clear();
+            cbCategory.SelectedItem= null;
+            rdoLinear.IsChecked = false;
+            rdoNonLinear.IsChecked = false;
+        }
         // Save Method
         // Load Method
 
@@ -66,7 +118,9 @@ namespace WikiApplication
         // Add Button
         private void Add_Clicked(object sender, RoutedEventArgs e)
         {
-            
+            Add();
+            SortandDisplay();
+            Clear();
         }
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
