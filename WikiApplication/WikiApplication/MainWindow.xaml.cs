@@ -15,17 +15,19 @@ using System.Windows.Shapes;
 
 namespace WikiApplication
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class MainWindow : Window
-    {
+    {   
+        List<string> myList = new List<string>();
+
         public MainWindow()
         {
             InitializeComponent();
         }
-        
 
-
+        private void Add_Clicked(object sender, RoutedEventArgs e)
+        {
+           
+        }
     }
 }

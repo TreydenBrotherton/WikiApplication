@@ -32,7 +32,7 @@
         <StackPanel Margin="51,10,37,0" Width="215" Height="252" Orientation="Vertical" Grid.RowSpan="4">
             <TextBox x:Name="txtboxName" Height="Auto" Width="150"/>
             <ComboBox x:Name="cbCategory" Height="Auto" Width="150" Margin="0,20,0,0"/>
-            <GroupBox Height="53" Width="162" Margin="0, 10, 0, 0" BorderBrush="{x:Null}">
+            <GroupBox Height="53" Width="162" Margin="0, 10, 0, 0" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <StackPanel Height="30" Margin="0,0,14,0">
                     <RadioButton x:Name="rdoLinear" Content="Linear Structure" GroupName="Structures"/>
                     <RadioButton x:Name="rdoNonLinear" Content="Non-Linear Structure" GroupName="Structures"/>
@@ -48,7 +48,7 @@
         <Canvas Grid.Column="1" Margin="0,10,10,20" Grid.RowSpan="4">
             <Label Content="Search:" Grid.ColumnSpan="2" Grid.RowSpan="2" FontWeight="Bold" Canvas.Left="-17" Canvas.Top="6"/>
             <TextBox x:Name="txtboxSearchInput" Height="Auto" Width="120" Canvas.Left="39" Canvas.Top="10"/>
-            <Button x:Name="btnAdd" Height="25" Width="50" Content="Add" Canvas.Left="39" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button x:Name="btnAdd" Height="25" Width="50" Content="Add" Canvas.Left="39" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Add_Clicked"/>
             <Button x:Name="btnSearch" Height="25" Width="50" Content="Search" Canvas.Left="109" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Button x:Name="btnEdit" Height="25" Width="50" Content="Edit" Canvas.Left="39" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button x:Name="btnDelete" Height="25" Width="50" Content="Delete" Canvas.Left="109" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top"/>
