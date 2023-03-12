@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WikiApplication"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="500" MinWidth="828" MaxHeight="500" MaxWidth="828" >
     <Grid>
+        <!--Grid Rows-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" x:Name="row0"/>
+            <RowDefinition Height="47" x:Name="row1"/>
+            <RowDefinition Height="48" x:Name="row2"/>
+            <RowDefinition Height="123" x:Name="row3"/>
+            <RowDefinition Height="*" x:Name="bottomRow"/>
+        </Grid.RowDefinitions>
 
+        <!--Grid Columns-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="303*" x:Name="firstColumn"/>
+            <ColumnDefinition Width="201*" x:Name="SecondColumn"/>
+            <ColumnDefinition Width="296*" x:Name="ThirdColumn"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Labels-->
+        <Label Content="Name:" Width="46" HorizontalAlignment="Left" Grid.Row="0" Margin="0,4,0,4" FontWeight="Bold"/>
+        <Label Content="Category:" Grid.Row="1" FontWeight="Bold"/>
+        <Label Content="Structures:" Grid.Row="2" FontWeight="Bold"/>
+        <Label Content="Definition:" Grid.Row="3" FontWeight="Bold"/>
+
+        <!--Name TextBox, Category Combo Box, Structures Groupbox + Radio buttons & Def Multi-Line-->
+        <StackPanel Margin="51,10,37,0" Width="215" Height="252" Orientation="Vertical" Grid.RowSpan="4">
+            <TextBox x:Name="txtboxName" Height="Auto" Width="150"/>
+            <ComboBox x:Name="cbCategory" Height="Auto" Width="150" Margin="0,20,0,0"/>
+            <GroupBox Height="53" Width="162" Margin="0, 10, 0, 0" BorderBrush="{x:Null}">
+                <StackPanel Height="30" Margin="0,0,14,0">
+                    <RadioButton x:Name="rdoLinear" Content="Linear Structure" GroupName="Structures"/>
+                    <RadioButton x:Name="rdoNonLinear" Content="Non-Linear Structure" GroupName="Structures"/>
+                </StackPanel>
+            </GroupBox>
+            <TextBox x:Name="txtboxDef" Height="Auto" Width="150" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,10,0,0" MaxLength="175"/>
+        </StackPanel>
+        
+        <!--List View-->
+        <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="3" Margin="10,0,306,10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Column 1" Width="150"/>
+                    <GridViewColumn Header="Column 2" Width="250"/>
+                </GridView>
+
+            </ListView.View>
+
+        </ListView>
     </Grid>
 </Window>
