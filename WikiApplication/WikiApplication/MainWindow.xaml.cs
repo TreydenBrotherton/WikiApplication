@@ -18,7 +18,7 @@ namespace WikiApplication
     
     public partial class MainWindow : Window
     {   
-        List<string> myList = new List<string>();
+        
 
         public MainWindow()
         {
