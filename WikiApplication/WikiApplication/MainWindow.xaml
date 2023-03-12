@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WikiApplication"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="500" MinWidth="828" MaxHeight="500" MaxWidth="828" >
+        Title="MainWindow" Height="500" Width="828" >
     <Grid>
         <!--Grid Rows-->
         <Grid.RowDefinitions>
@@ -28,7 +28,6 @@
         <Label Content="Category:" Grid.Row="1" FontWeight="Bold"/>
         <Label Content="Structures:" Grid.Row="2" FontWeight="Bold"/>
         <Label Content="Definition:" Grid.Row="3" FontWeight="Bold"/>
-
         <!--Name TextBox, Category Combo Box, Structures Groupbox + Radio buttons & Def Multi-Line-->
         <StackPanel Margin="51,10,37,0" Width="215" Height="252" Orientation="Vertical" Grid.RowSpan="4">
             <TextBox x:Name="txtboxName" Height="Auto" Width="150"/>
@@ -41,17 +40,20 @@
             </GroupBox>
             <TextBox x:Name="txtboxDef" Height="Auto" Width="150" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,10,0,0" MaxLength="175"/>
         </StackPanel>
-        
+
         <!--List View-->
-        <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="3" Margin="10,0,306,10">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Column 1" Width="150"/>
-                    <GridViewColumn Header="Column 2" Width="250"/>
-                </GridView>
+        <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="3" Margin="10,0,10,10"/>
 
-            </ListView.View>
-
-        </ListView>
+        <!--Buttons-->
+        <Canvas Grid.Column="1" Margin="0,10,10,20" Grid.RowSpan="4">
+            <Label Content="Search:" Grid.ColumnSpan="2" Grid.RowSpan="2" FontWeight="Bold" Canvas.Left="-17" Canvas.Top="6"/>
+            <TextBox x:Name="txtboxSearchInput" Height="Auto" Width="120" Canvas.Left="39" Canvas.Top="10"/>
+            <Button x:Name="btnAdd" Height="25" Width="50" Content="Add" Canvas.Left="39" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button x:Name="btnSearch" Height="25" Width="50" Content="Search" Canvas.Left="109" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button x:Name="btnEdit" Height="25" Width="50" Content="Edit" Canvas.Left="39" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button x:Name="btnDelete" Height="25" Width="50" Content="Delete" Canvas.Left="109" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button x:Name="btnSave" Height="25" Width="50" Content="Save" Canvas.Left="39" Canvas.Top="93" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button x:Name="btnLoad" Height="25" Width="50" Content="Load" Canvas.Left="109" Canvas.Top="93" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Canvas>
     </Grid>
 </Window>
