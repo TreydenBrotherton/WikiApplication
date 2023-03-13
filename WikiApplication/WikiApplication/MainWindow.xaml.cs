@@ -22,7 +22,7 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
-        
+        int index;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,30 +31,22 @@ namespace WikiApplication
         // Add Method
         private void Add()
         {
+           
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
             if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
             {
                 // Creates a new object of Information
                 Information newInformation = new Information();
 
-                // checks what radio button is selected, sets the structure to selected option as a string
-                if (rdoLinear.IsChecked == true)
-                {
-                    newInformation.structure = "Linear";
-                }
-                else if (rdoNonLinear.IsChecked == true)
-                {
-                    newInformation.structure = "Non-Linear";
-                }
-                else
-                {
-                    MessageBox.Show("Please select a Structure Option");
-                }
-
+                // checks what radio button is selected, sets the structure to selected option as a String
+                CheckRadioButtonValue();
+               
                 // Gets the attributes from Information.cs and adds the users input to related attribute
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
                 newInformation.definition = txtboxDef.Text;
+
+               
                 // Adds the object to the Wiki List
                 Wiki.Add(newInformation);
             }
@@ -106,7 +98,44 @@ namespace WikiApplication
             
 
         }
-        // Group Box Methods (Highlight and return)
+        // Group Box Methods (Highlight and return) // This will be 3 methods, one method will call the other two methods
+        private string SelectedRadioButton()
+        {
+            if (rdoLinear.IsChecked == true)
+            {
+                return "Linear Structure";
+            }
+            else if (rdoNonLinear.IsChecked == true)
+            {
+                return "Non-Linear Structure";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private int SelectedRadioButtonIndex()
+        {
+            int value = -1;
+            if(rdoLinear.IsChecked == true)
+            {
+                value = 0;
+            }
+            else if (rdoNonLinear.IsChecked == true)
+            {
+                value = 1;
+            }
+            return value;
+
+            
+        }
+
+        private void CheckRadioButtonValue()
+        {
+            SelectedRadioButton();
+            SelectedRadioButtonIndex();
+        }
         // Delete Method
         // Edit Method
 
@@ -153,7 +182,27 @@ namespace WikiApplication
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             loadComboBox();
+            
         }
+        private void rdoLinearIsClicked(object sender, RoutedEventArgs e)
+        {
+            index = rdoStackPanel.Children.IndexOf(sender as RadioButton);
+            MessageBox.Show(index.ToString());
+        }
+        private void Selected_Entry(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show(index.ToString());
+            var wikiItems = (Information)((ListView)sender).SelectedItem;
+            if (wikiItems != null)
+            {
+                txtboxName.Text = wikiItems.name;
+                cbCategory.SelectedItem = wikiItems.category;
+              
+            }
+        }
+
+       
+
         // Search Button
         // Edit Button
         // Delete Button
