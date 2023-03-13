@@ -38,6 +38,10 @@ namespace WikiApplication
             get { return Definition; }
             set { Definition = value; }
         }
+        public bool isRadio1Checked { get; set; }
+        public bool isRadio2Checked { get; set; }
+        public int rdoSelectedIndex { get; set; }
+        public string rdoSelectedType { get; set; }
         // Constructor 
         public Information(string name, string category, string structure, string definition)
         {

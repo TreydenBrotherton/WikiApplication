@@ -22,31 +22,44 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
-        int index;
+        int index = -1;
+        
         public MainWindow()
         {
             InitializeComponent();
+            
         }
         // --- Methods --- //
         // Add Method
         private void Add()
         {
-           
+         
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
             if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
             {
+                
                 // Creates a new object of Information
                 Information newInformation = new Information();
-
+                
                 // checks what radio button is selected, sets the structure to selected option as a String
                 CheckRadioButtonValue();
-               
+                newInformation.rdoSelectedIndex = SelectedRadioButtonIndex();
+                newInformation.rdoSelectedType = SelectedRadioButton();
+                
+
                 // Gets the attributes from Information.cs and adds the users input to related attribute
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
                 newInformation.definition = txtboxDef.Text;
-
-               
+                
+                if(rdoLinear.IsChecked == true)
+                {
+                    newInformation.isRadio1Checked = true;
+                }
+                else if (rdoNonLinear.IsChecked == true)
+                {
+                    newInformation.isRadio2Checked = true;
+                }
                 // Adds the object to the Wiki List
                 Wiki.Add(newInformation);
             }
@@ -88,6 +101,7 @@ namespace WikiApplication
             if (isDuplicate)
             {
                 MessageBox.Show("Found a duplicate");
+                SortandDisplay();
                 Clear();
                 return true;
             }
@@ -117,19 +131,18 @@ namespace WikiApplication
 
         private int SelectedRadioButtonIndex()
         {
-            int value = -1;
-            if(rdoLinear.IsChecked == true)
+
+            index = -1;
+            if (rdoLinear.IsChecked == true)
             {
-                value = 0;
+                index = 0;
             }
             else if (rdoNonLinear.IsChecked == true)
             {
-                value = 1;
+                index = 1;
             }
-            return value;
-
-            
-        }
+            return index;
+         }
 
         private void CheckRadioButtonValue()
         {
@@ -177,6 +190,7 @@ namespace WikiApplication
             }
             
             
+            
         }
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -184,24 +198,27 @@ namespace WikiApplication
             loadComboBox();
             
         }
-        private void rdoLinearIsClicked(object sender, RoutedEventArgs e)
-        {
-            index = rdoStackPanel.Children.IndexOf(sender as RadioButton);
-            MessageBox.Show(index.ToString());
-        }
         private void Selected_Entry(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show(index.ToString());
+            
             var wikiItems = (Information)((ListView)sender).SelectedItem;
             if (wikiItems != null)
             {
                 txtboxName.Text = wikiItems.name;
                 cbCategory.SelectedItem = wikiItems.category;
+                txtboxDef.Text = wikiItems.definition;
+                if(wikiItems.isRadio1Checked)
+                {
+                    rdoLinear.IsChecked = true;
+                }
+                else if (wikiItems.isRadio2Checked)
+                {
+                    rdoNonLinear.IsChecked = true;
+                }
               
             }
+            
         }
-
-       
 
         // Search Button
         // Edit Button
