@@ -174,7 +174,51 @@ namespace WikiApplication
         }
 
         // Edit Method
+        private void EditEntry()
+        {
+            object selectedItem = lvData.SelectedItem;
+            Information newInformation = new Information();
 
+            if (selectedItem != null)
+            {
+                // Creates an object of the selected item
+                Information dataObject = (Information)selectedItem;
+
+                // resets both radio button checks to false
+                dataObject.isRadio1Checked = false;
+                dataObject.isRadio2Checked = false;
+
+                // sets the selected items variables
+                dataObject.name = txtboxName.Text;
+                dataObject.category = cbCategory.SelectedItem.ToString()!;
+                dataObject.definition = txtboxDef.Text;
+
+                // Checks for what radio button is clicked and stores it
+                CheckRadioButtonValue();
+                dataObject.rdoSelectedIndex = SelectedRadioButtonIndex();
+                dataObject.rdoSelectedType = SelectedRadioButton();
+
+                // gets stored value of which radio button is clicked
+                if (rdoLinear.IsChecked == true)
+                {
+                    dataObject.isRadio1Checked = true;
+                }
+                else if (rdoNonLinear.IsChecked == true)
+                {
+                    dataObject.isRadio2Checked = true;
+                }
+
+                // Checks which radio button is was checked, sets that radio button to checked
+                if (dataObject.isRadio1Checked)
+                {
+                    rdoLinear.IsChecked = true;
+                }
+                else if (dataObject.isRadio2Checked)
+                {
+                    rdoNonLinear.IsChecked = true;
+                }
+            }
+        }
         // Sort and Display Method
         private void SortandDisplay()
         {
@@ -248,6 +292,21 @@ namespace WikiApplication
             DeleteEntry();
             Clear();
             SortandDisplay();
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            object selectedItem = lvData.SelectedItem;
+            Information dataObject = (Information)selectedItem;
+            if (selectedItem != null)
+            {
+               
+                EditEntry();
+                Clear();
+                SortandDisplay();
+                lvData.Items.Refresh();
+            }
+            
         }
 
         // Search Button

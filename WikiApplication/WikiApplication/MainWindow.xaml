@@ -51,7 +51,7 @@
             <TextBox x:Name="txtboxSearchInput" Height="Auto" Width="120" Canvas.Left="39" Canvas.Top="10"/>
             <Button x:Name="btnAdd" Height="25" Width="50" Content="Add" Canvas.Left="39" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Add_Clicked"/>
             <Button x:Name="btnSearch" Height="25" Width="50" Content="Search" Canvas.Left="109" Canvas.Top="33" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button x:Name="btnEdit" Height="25" Width="50" Content="Edit" Canvas.Left="39" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button x:Name="btnEdit" Height="25" Width="50" Content="Edit" Canvas.Left="39" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnEdit_Click"/>
             <Button x:Name="btnDelete" Height="25" Width="50" Content="Delete" Canvas.Left="109" Canvas.Top="63" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnDelete_Click"/>
             <Button x:Name="btnSave" Height="25" Width="50" Content="Save" Canvas.Left="39" Canvas.Top="93" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button x:Name="btnLoad" Height="25" Width="50" Content="Load" Canvas.Left="109" Canvas.Top="93" HorizontalAlignment="Center" VerticalAlignment="Center"/>
