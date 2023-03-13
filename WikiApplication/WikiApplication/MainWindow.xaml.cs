@@ -23,6 +23,7 @@ namespace WikiApplication
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
         int index = -1;
+        string currentlySelectedItem;
         
         public MainWindow()
         {
@@ -33,15 +34,13 @@ namespace WikiApplication
         // Add Method
         private void Add()
         {
-         
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
             if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
             {
-                
                 // Creates a new object of Information
                 Information newInformation = new Information();
                 
-                // checks what radio button is selected, sets the structure to selected option as a String
+                // Checks the currently selected Radio button Index and Type (Linear/Non-Linear), assigns each variable to this object
                 CheckRadioButtonValue();
                 newInformation.rdoSelectedIndex = SelectedRadioButtonIndex();
                 newInformation.rdoSelectedType = SelectedRadioButton();
@@ -51,7 +50,9 @@ namespace WikiApplication
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
                 newInformation.definition = txtboxDef.Text;
-                
+
+                // Checks if this object has linear or non linear radio button clicked, which button is clicked in Information.cs
+                // This helps add to the functionality of when selecting an entry, the correct radio button is re-checked
                 if(rdoLinear.IsChecked == true)
                 {
                     newInformation.isRadio1Checked = true;
@@ -110,9 +111,10 @@ namespace WikiApplication
                 return false;
             }
             
-
         }
+
         // Group Box Methods (Highlight and return) // This will be 3 methods, one method will call the other two methods
+        // Gets the structure of the selected radio button
         private string SelectedRadioButton()
         {
             if (rdoLinear.IsChecked == true)
@@ -128,7 +130,7 @@ namespace WikiApplication
                 return "";
             }
         }
-
+        // Gets the index of the currently selected Radio Button
         private int SelectedRadioButtonIndex()
         {
 
@@ -143,13 +145,34 @@ namespace WikiApplication
             }
             return index;
          }
-
+        // Method to call the other two methods
         private void CheckRadioButtonValue()
         {
             SelectedRadioButton();
             SelectedRadioButtonIndex();
         }
         // Delete Method
+        private void DeleteEntry()
+        {
+            object selectedItem = lvData.SelectedItem;
+            // Checks if user has selected an item or not
+            if (selectedItem != null)
+            {
+                // Creates a message box to show when user has selected an item and has clicked delete
+                MessageBoxResult userResult = MessageBox.Show("Are you sure you want to delete this entry?", "Delete", MessageBoxButton.YesNo);
+                // if user clicks Yes, deletes item, if user clicks no then it cancels the action
+                if (userResult == MessageBoxResult.Yes)
+                {
+                    lvData.Items.Remove(selectedItem);
+                    Wiki.Remove((Information)selectedItem);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select an entry to delete");
+            }
+        }
+
         // Edit Method
 
         // Sort and Display Method
@@ -162,6 +185,7 @@ namespace WikiApplication
                 lvData.Items.Add(item);
             }    
         }
+
         // Built-in Binary Search method
 
         // Clear Method (Reset all boxes and buttons)
@@ -169,6 +193,7 @@ namespace WikiApplication
         {
             txtboxName.Clear();
             txtboxDef.Clear();
+            txtboxSearchInput.Clear();
             cbCategory.SelectedItem= null;
             rdoLinear.IsChecked = false;
             rdoNonLinear.IsChecked = false;
@@ -188,9 +213,6 @@ namespace WikiApplication
                 SortandDisplay();
                 Clear();
             }
-            
-            
-            
         }
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -198,16 +220,19 @@ namespace WikiApplication
             loadComboBox();
             
         }
+        // Selected Entry Event - When you click on an entry in the list view, this will display its items back into its related controls
         private void Selected_Entry(object sender, SelectionChangedEventArgs e)
         {
-            
             var wikiItems = (Information)((ListView)sender).SelectedItem;
+
             if (wikiItems != null)
             {
                 txtboxName.Text = wikiItems.name;
                 cbCategory.SelectedItem = wikiItems.category;
                 txtboxDef.Text = wikiItems.definition;
-                if(wikiItems.isRadio1Checked)
+
+                // Checks which radio button was checked on creation of object, checks the correct button when entry is selected
+                if (wikiItems.isRadio1Checked)
                 {
                     rdoLinear.IsChecked = true;
                 }
@@ -215,9 +240,14 @@ namespace WikiApplication
                 {
                     rdoNonLinear.IsChecked = true;
                 }
-              
             }
             
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteEntry();
+            Clear();
+            SortandDisplay();
         }
 
         // Search Button
