@@ -178,8 +178,8 @@ namespace WikiApplication
         {
             object selectedItem = lvData.SelectedItem;
             Information newInformation = new Information();
-
-            if (selectedItem != null)
+           
+            if (selectedItem != null && CheckIfInputsAreValid())
             {
                 // Creates an object of the selected item
                 Information dataObject = (Information)selectedItem;
@@ -244,7 +244,20 @@ namespace WikiApplication
         }
         // Save Method
         // Load Method
-
+        // Check if all input boxes are valid or not
+        private bool CheckIfInputsAreValid()
+        {
+            if (string.IsNullOrEmpty(txtboxName.Text) && string.IsNullOrEmpty(txtboxDef.Text) &&
+                cbCategory.SelectedItem != null && rdoLinear.IsChecked == true && rdoNonLinear.IsChecked == true)
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("You are missing information. Please make sure each input field is filled out");
+                return false;
+            }
+        }
         // --- Buttons & Events --- //
 
         // Add Button
