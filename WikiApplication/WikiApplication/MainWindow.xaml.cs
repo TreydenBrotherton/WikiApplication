@@ -23,7 +23,7 @@ namespace WikiApplication
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
         int index = -1;
-        string currentlySelectedItem;
+        
         
         public MainWindow()
         {
@@ -35,7 +35,7 @@ namespace WikiApplication
         private void Add()
         {
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
-            if (cbCategory.SelectedItem != null && !string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text))
+            if (CheckIfInputsAreValid())
             {
                 // Creates a new object of Information
                 Information newInformation = new Information();
@@ -66,7 +66,7 @@ namespace WikiApplication
             }
             else
             {
-                MessageBox.Show("Please make sure the information is filled out in its appropriate fields");
+               
             }
            
         }
@@ -179,7 +179,7 @@ namespace WikiApplication
             object selectedItem = lvData.SelectedItem;
             Information newInformation = new Information();
            
-            if (selectedItem != null && CheckIfInputsAreValid())
+            if (selectedItem != null)
             {
                 // Creates an object of the selected item
                 Information dataObject = (Information)selectedItem;
@@ -218,6 +218,7 @@ namespace WikiApplication
                     rdoNonLinear.IsChecked = true;
                 }
             }
+            
         }
         // Sort and Display Method
         private void SortandDisplay()
@@ -247,8 +248,8 @@ namespace WikiApplication
         // Check if all input boxes are valid or not
         private bool CheckIfInputsAreValid()
         {
-            if (string.IsNullOrEmpty(txtboxName.Text) && string.IsNullOrEmpty(txtboxDef.Text) &&
-                cbCategory.SelectedItem != null && rdoLinear.IsChecked == true && rdoNonLinear.IsChecked == true)
+            if (!string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text) &&
+                cbCategory.SelectedItem != null)
             {
                 return true;
             }
@@ -309,17 +310,19 @@ namespace WikiApplication
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            object selectedItem = lvData.SelectedItem;
-            Information dataObject = (Information)selectedItem;
-            if (selectedItem != null)
+            int selectedItem = lvData.SelectedIndex;
+            if (selectedItem != -1)
             {
-               
                 EditEntry();
                 Clear();
                 SortandDisplay();
                 lvData.Items.Refresh();
             }
-            
+            else
+            {
+                MessageBox.Show("Please select an item to edit");
+                Clear();
+            }
         }
 
         // Search Button
