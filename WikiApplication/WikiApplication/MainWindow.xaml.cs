@@ -221,7 +221,34 @@ namespace WikiApplication
         }
 
         // Built-in Binary Search method
+        private void BinarySearch()
+        {
+            // Searches Wiki for the txtboxSearchInput, returns index value, negative number = entry not found, positive number = entry found
+            int index = Wiki.BinarySearch(new Information { name = txtboxSearchInput.Text }, new Information());
 
+            // if search was successful (if index is a equal to or greater than 0), else displays error
+            if (index >= 0)
+            {
+                Information foundEntry = Wiki[index];
+                txtboxName.Text = foundEntry.name;
+                cbCategory.SelectedItem = foundEntry.category;
+                txtboxDef.Text = foundEntry.definition;
+                if (foundEntry.isLinear)
+                {
+                    rdoLinear.IsChecked = true;
+                }
+                else
+                {
+                    rdoNonLinear.IsChecked = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("The entry you are searching for doesn't exist");
+                Clear();
+            }
+
+        }
         // Clear Method (Reset all boxes and buttons)
         private void Clear()
         {
@@ -290,6 +317,7 @@ namespace WikiApplication
                     rdoNonLinear.IsChecked = true;
                 }
             }
+
             
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -315,6 +343,12 @@ namespace WikiApplication
             }
            
             
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            BinarySearch();
+            txtboxSearchInput.Clear();
         }
 
         // Search Button

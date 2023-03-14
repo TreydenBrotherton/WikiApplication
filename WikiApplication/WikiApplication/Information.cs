@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WikiApplication
 {
-    class Information : IComparable<Information>
+    class Information : IComparable<Information>, IComparer<Information>
     {
         // variables
         private string Name;
@@ -38,8 +38,7 @@ namespace WikiApplication
             get { return Definition; }
             set { Definition = value; }
         }
-        public bool isRadio1Checked { get; set; }
-        public bool isRadio2Checked { get; set; }
+      
         public bool isLinear { get; set; }
         public int rdoSelectedIndex { get; set; }
         public string rdoSelectedType { get; set; }
@@ -68,5 +67,9 @@ namespace WikiApplication
             return Name.CompareTo(other.Name);
         }
 
+        public int Compare(Information? x, Information? y)
+        {
+            return x.Name.CompareTo(y.Name);
+        }
     }
 }
