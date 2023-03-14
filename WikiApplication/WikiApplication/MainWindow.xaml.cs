@@ -20,21 +20,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xaml;
-using System.Xml.Linq;
 
 namespace WikiApplication
 {
-    
+
     public partial class MainWindow : Window
     {
-        List<Information> Wiki= new List<Information>(); // Wiki List of type Information
+        List<Information> Wiki = new List<Information>(); // Wiki List of type Information
         int index; // Used in selectedRadioButtonIndex()
-        
+
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
+
         // --- Methods --- //
 
         // Check if both Radio buttons are valid
@@ -48,7 +48,7 @@ namespace WikiApplication
         {
             // Creates a new object of Information
             Information newInformation = new Information();
-          
+
             // Checks if this object has linear or non linear radio button clicked, sets to isLinear as true or false
             // This helps add to the functionality of saving the state of which button was clicked on creation of object
             if (rdoLinear.IsChecked == true)
@@ -62,7 +62,7 @@ namespace WikiApplication
 
             // Checks if all input fields are valid if true, run code block, if false, display error
             if (CheckIfInputsAreValid())
-            { 
+            {
                 // Gets the attributes from Information.cs and adds the users input to related attribute
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
@@ -75,7 +75,7 @@ namespace WikiApplication
             {
                 MessageBox.Show("You are missing some information. Please fill out all fields");
             }
-           
+
         }
 
         // ComboBox on Form Load Method 
@@ -118,7 +118,7 @@ namespace WikiApplication
             {
                 return false;
             }
-            
+
         }
 
         // Group Box Methods (Radio Button Methods for Highlight and return) // This will be 3 methods, one method will call the other two methods
@@ -156,7 +156,7 @@ namespace WikiApplication
                 index = -1;
             }
             return index;
-         }
+        }
 
         // Method to call the other two methods
         private void CheckRadioButtonValue()
@@ -191,7 +191,7 @@ namespace WikiApplication
         private void EditEntry()
         {
             int selectedIndex = lvData.SelectedIndex;
-           
+
             if (selectedIndex != -1)
             {
                 // Get the data object for the selected item
@@ -201,13 +201,13 @@ namespace WikiApplication
                 dataObject.name = txtboxName.Text;
                 dataObject.category = cbCategory.SelectedItem.ToString()!;
                 dataObject.definition = txtboxDef.Text;
-              
+
                 // Update the radio button values
-                if(rdoLinear.IsChecked == true)
+                if (rdoLinear.IsChecked == true)
                 {
                     dataObject.isLinear = true;
                 }
-                else 
+                else
                 {
                     dataObject.isLinear = false;
                 }
@@ -217,15 +217,15 @@ namespace WikiApplication
                 Clear();
             }
         }
-       
+
         // Sort and Display Method
         private void SortandDisplay()
         {
             lvData.Items.Clear();
             Wiki.Sort();
-            foreach (Information obj in Wiki)
+            foreach (var item in Wiki)
             {
-                lvData.Items.Add(obj);
+                lvData.Items.Add(item);
             }
         }
 
@@ -265,13 +265,13 @@ namespace WikiApplication
             txtboxName.Clear();
             txtboxDef.Clear();
             txtboxSearchInput.Clear();
-            cbCategory.SelectedItem= null;
+            cbCategory.SelectedItem = null;
             rdoLinear.IsChecked = false;
             rdoNonLinear.IsChecked = false;
         }
 
         // Save Method
-        
+
         private void SaveFile(List<Information> list)
         {
             SaveFileDialog dialog = new();
@@ -287,11 +287,11 @@ namespace WikiApplication
             }
             else
             {
-                
+
             }
 
         }
-        
+
         // Load Method
         private List<Information> LoadFile()
         {
@@ -316,7 +316,8 @@ namespace WikiApplication
             }
             return list;
         }
-        // Check if all input boxes are valid or not
+
+            // Check if all input boxes are valid or not
         private bool CheckIfInputsAreValid()
         {
             if (!string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text) &&
@@ -351,7 +352,7 @@ namespace WikiApplication
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadComboBox();
-            
+
         }
 
         // Selected Entry Event - When you click on an entry in the list view, this will display its items back into its related controls
@@ -365,7 +366,7 @@ namespace WikiApplication
                 txtboxDef.Text = selectedItem.definition;
                 cbCategory.SelectedItem = selectedItem.category;
 
-                if(selectedItem.isLinear == true)
+                if (selectedItem.isLinear == true)
                 {
                     rdoLinear.IsChecked = true;
                 }
@@ -375,7 +376,7 @@ namespace WikiApplication
                 }
             }
 
-            
+
         }
         // Delete Button
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -400,8 +401,8 @@ namespace WikiApplication
                 Clear();
                 SortandDisplay();
             }
-           
-            
+
+
         }
 
         // Search Button
@@ -426,8 +427,6 @@ namespace WikiApplication
         {
             List<Information> loadedList = LoadFile();
         }
-
-    
     }
-   
+
 }

@@ -50,12 +50,6 @@
 
         <!--List View-->
         <ListView x:Name="lvData" Grid.Row="4" Height="Auto" Grid.ColumnSpan="2" Margin="10,0,48,10" SelectionChanged="Selected_Entry">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding name, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn Header="Category" Width="200" DisplayMemberBinding="{Binding category, UpdateSourceTrigger=PropertyChanged}"/>
-                </GridView>
-            </ListView.View>
         </ListView>
 
         <!--Buttons-->
