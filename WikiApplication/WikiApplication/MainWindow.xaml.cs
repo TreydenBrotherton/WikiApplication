@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xaml;
+using System.Xml.Linq;
 
 namespace WikiApplication
 {
@@ -222,10 +223,10 @@ namespace WikiApplication
         {
             lvData.Items.Clear();
             Wiki.Sort();
-           foreach(var item in Wiki)
+            foreach (Information obj in Wiki)
             {
-                lvData.Items.Add(item);
-            }    
+                lvData.Items.Add(obj);
+            }
         }
 
         // Built-in Binary Search method
@@ -273,31 +274,47 @@ namespace WikiApplication
         
         private void SaveFile(List<Information> list)
         {
-
-            using (Stream fileStream = File.Open("wikiList.txt", FileMode.Create))
+            SaveFileDialog dialog = new();
+            dialog.FileName = "wikiList.dat";
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            if (dialog.ShowDialog() == true)
             {
-                BinaryFormatter s = new BinaryFormatter();
-                s.Serialize(fileStream, list);
+                using (Stream fileStream = File.Open(dialog.FileName, FileMode.Create))
+                {
+                    BinaryFormatter s = new BinaryFormatter();
+                    s.Serialize(fileStream, list);
+                }
             }
-
+            else
+            {
+                
+            }
 
         }
         
         // Load Method
-        private void LoadFile(List<Information> list)
+        private List<Information> LoadFile()
         {
-            using (Stream fileStream = File.OpenRead("wikiList.txt"))
-            {
-                BinaryFormatter deserializer = new BinaryFormatter();
-                list = (List<Information>)deserializer.Deserialize(fileStream);
-            }
+            List<Information> list = new List<Information>();
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            dialog.Filter = "Data File|*.dat";
 
-            foreach(Information info in list)
+            if (dialog.ShowDialog() == true)
             {
-                lvData.Items.Add(info);
-            }
-        
+                using (Stream fileStream = File.OpenRead(dialog.FileName))
+                {
+                    BinaryFormatter deserializer = new BinaryFormatter();
+                    list = (List<Information>)deserializer.Deserialize(fileStream);
+                }
 
+                foreach (Information info in list)
+                {
+                    lvData.Items.Add(info);
+                    Wiki.Add(info);
+                }
+            }
+            return list;
         }
         // Check if all input boxes are valid or not
         private bool CheckIfInputsAreValid()
@@ -407,8 +424,10 @@ namespace WikiApplication
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            LoadFile(Wiki);
+            List<Information> loadedList = LoadFile();
         }
+
+    
     }
    
 }

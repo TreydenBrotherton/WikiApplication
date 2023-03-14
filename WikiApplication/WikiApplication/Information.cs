@@ -1,16 +1,19 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace WikiApplication
 {
     [Serializable]
-    class Information : IComparable<Information>, IComparer<Information>
+    class Information : IComparable<Information>, IComparer<Information>, INotifyPropertyChanged
     {
         // variables
         private string Name;
@@ -19,16 +22,31 @@ namespace WikiApplication
         private string Definition;
 
         // Create separate setters and getters for each variable
+
         public string name
         {
             get { return Name; }
-            set { Name = value; }
+            set
+            {
+                if (Name != value)
+                {
+                    Name = value;
+                    OnPropertyChanged("Name");
+                }
+            }
         }
 
         public string category
         {
             get { return Category; }
-            set { Category = value; }
+            set
+            {
+                if (Category != value)
+                {
+                    Category = value;
+                    OnPropertyChanged("Category");
+                }
+            }
         }
 
         public string structure
@@ -62,9 +80,8 @@ namespace WikiApplication
         // overrides toString so when displaying items from Wiki, only name and category displays
         public override string ToString()
         {
-            return Name + "\t\t\t" + Category;
+            return Name + " --> " + Category;
         }
-
         // Uses IComparable Interface to implement the CompareTo method, sorts by Name
         public int CompareTo(Information other)
         {
@@ -75,7 +92,13 @@ namespace WikiApplication
         {
             return x.Name.CompareTo(y.Name);
         }
-    
-     
+
+        // Used to display 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }
