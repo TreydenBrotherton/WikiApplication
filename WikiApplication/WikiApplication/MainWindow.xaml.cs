@@ -23,8 +23,7 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
-        int index;
-        
+        int index; // Used in selectedRadioButtonIndex()
         
         public MainWindow()
         {
@@ -32,19 +31,21 @@ namespace WikiApplication
             
         }
         // --- Methods --- //
+
         // Check if both Radio buttons are valid
         private bool areBothRadioButtonsValid()
         {
             return rdoLinear.IsChecked == true || rdoNonLinear.IsChecked == true;
         }
+
         // Add Method
         private void Add()
         {
             // Creates a new object of Information
             Information newInformation = new Information();
           
-            // Checks if this object has linear or non linear radio button clicked, which button is clicked in Information.cs
-            // This helps add to the functionality of when selecting an entry, the correct radio button is re-checked
+            // Checks if this object has linear or non linear radio button clicked, sets to isLinear as true or false
+            // This helps add to the functionality of saving the state of which button was clicked on creation of object
             if (rdoLinear.IsChecked == true)
             {
                 newInformation.isLinear = true;
@@ -54,15 +55,9 @@ namespace WikiApplication
                 newInformation.isLinear = false;
             }
 
-            // Combo box - Checks if user has selected an option that is an option or if they leave it empty
+            // Checks if all input fields are valid if true, run code block, if false, display error
             if (CheckIfInputsAreValid())
-            {
-                // Checks the currently selected Radio button Index and Type (Linear/Non-Linear), assigns each variable to this object
-                CheckRadioButtonValue();
-                newInformation.rdoSelectedIndex = SelectedRadioButtonIndex();
-                newInformation.rdoSelectedType = SelectedRadioButton();
-                
-
+            { 
                 // Gets the attributes from Information.cs and adds the users input to related attribute
                 newInformation.category = cbCategory.SelectedItem.ToString()!; // "!" Tells the compiler that the expression cannot be null
                 newInformation.name = txtboxName.Text;
@@ -78,7 +73,7 @@ namespace WikiApplication
            
         }
         // ComboBox on Form Load Method 
-        private void loadComboBox()
+        private void LoadComboBox()
         {
             try
             {
@@ -119,7 +114,8 @@ namespace WikiApplication
             
         }
 
-        // Group Box Methods (Highlight and return) // This will be 3 methods, one method will call the other two methods
+        // Group Box Methods (Radio Button Methods for Highlight and return) // This will be 3 methods, one method will call the other two methods
+
         // Gets the structure of the selected radio button
         private string SelectedRadioButton()
         {
@@ -195,9 +191,7 @@ namespace WikiApplication
                 dataObject.name = txtboxName.Text;
                 dataObject.category = cbCategory.SelectedItem.ToString()!;
                 dataObject.definition = txtboxDef.Text;
-                dataObject.rdoSelectedIndex = SelectedRadioButtonIndex();
-                dataObject.rdoSelectedType = SelectedRadioButton();
-
+              
                 // Update the radio button values
                 if(rdoLinear.IsChecked == true)
                 {
@@ -273,7 +267,7 @@ namespace WikiApplication
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            loadComboBox();
+            LoadComboBox();
             
         }
         // Selected Entry Event - When you click on an entry in the list view, this will display its items back into its related controls
@@ -315,7 +309,7 @@ namespace WikiApplication
             }
             else
             {
-                MessageBox.Show("Found an error whilst trying to edit this item, try again");
+                MessageBox.Show("Found an error whilst trying to edit this item. The name is a duplicate or you're missing some information..");
                 Clear();
                 SortandDisplay();
             }
