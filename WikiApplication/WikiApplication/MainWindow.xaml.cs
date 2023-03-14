@@ -72,6 +72,7 @@ namespace WikiApplication
             }
            
         }
+
         // ComboBox on Form Load Method 
         private void LoadComboBox()
         {
@@ -95,6 +96,7 @@ namespace WikiApplication
                 Close();
             }
         }
+
         // Valid Name Method (Changed the name to IsNameDuplciate as it makes more sense to me)
         private bool IsNameDuplciate()
         {
@@ -132,6 +134,7 @@ namespace WikiApplication
                 return "";
             }
         }
+
         // Gets the index of the currently selected Radio Button
         private int SelectedRadioButtonIndex()
         {
@@ -149,12 +152,14 @@ namespace WikiApplication
             }
             return index;
          }
+
         // Method to call the other two methods
         private void CheckRadioButtonValue()
         {
             SelectedRadioButton();
             SelectedRadioButtonIndex();
         }
+
         // Delete Method
         private void DeleteEntry()
         {
@@ -208,7 +213,6 @@ namespace WikiApplication
             }
         }
        
-       
         // Sort and Display Method
         private void SortandDisplay()
         {
@@ -249,6 +253,7 @@ namespace WikiApplication
             }
 
         }
+
         // Clear Method (Reset all boxes and buttons)
         private void Clear()
         {
@@ -259,8 +264,11 @@ namespace WikiApplication
             rdoLinear.IsChecked = false;
             rdoNonLinear.IsChecked = false;
         }
+
         // Save Method
+
         // Load Method
+
         // Check if all input boxes are valid or not
         private bool CheckIfInputsAreValid()
         {
@@ -291,12 +299,14 @@ namespace WikiApplication
                 MessageBox.Show("Found a duplicate");
             }
         }
+
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadComboBox();
             
         }
+
         // Selected Entry Event - When you click on an entry in the list view, this will display its items back into its related controls
         private void Selected_Entry(object sender, SelectionChangedEventArgs e)
         {
@@ -320,6 +330,7 @@ namespace WikiApplication
 
             
         }
+        // Delete Button
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             DeleteEntry();
@@ -327,6 +338,7 @@ namespace WikiApplication
             SortandDisplay();
         }
 
+        // Edit Button
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             if (!IsNameDuplciate() && CheckIfInputsAreValid())
@@ -345,18 +357,18 @@ namespace WikiApplication
             
         }
 
+        // Search Button
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             BinarySearch();
             txtboxSearchInput.Clear();
         }
 
-        // Search Button
-        // Edit Button
-        // Delete Button
-        // Save Button
-        // Load Button
-        // ListView Selected Event
-        // Double Click Name Event
+        // Text Box Name double click event
+        private void txtboxName_doubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Clear();
+        }
+
     }
 }
