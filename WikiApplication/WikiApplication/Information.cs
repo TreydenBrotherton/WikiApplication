@@ -75,7 +75,5 @@ namespace WikiApplication
         {
             return x.Name.CompareTo(y.Name);
         }
-
-
     }
 }

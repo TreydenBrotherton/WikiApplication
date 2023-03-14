@@ -427,6 +427,16 @@ namespace WikiApplication
         {
             List<Information> loadedList = LoadFile();
         }
+
+        private void Form_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to SAVE before exitting the program?", "Exitting Program", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveFile(Wiki);
+            }
+        }
     }
 
 }
