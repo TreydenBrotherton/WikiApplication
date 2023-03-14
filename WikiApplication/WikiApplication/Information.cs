@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WikiApplication
 {
+    [Serializable]
     class Information : IComparable<Information>, IComparer<Information>
     {
         // variables
@@ -38,7 +42,7 @@ namespace WikiApplication
             get { return Definition; }
             set { Definition = value; }
         }
-      
+
         public bool isLinear { get; set; }
         public int rdoSelectedIndex { get; set; }
         public string rdoSelectedType { get; set; }
@@ -71,5 +75,7 @@ namespace WikiApplication
         {
             return x.Name.CompareTo(y.Name);
         }
+    
+     
     }
 }

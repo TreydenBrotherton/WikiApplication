@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Enumeration;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,13 +19,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xaml;
 
 namespace WikiApplication
 {
     
     public partial class MainWindow : Window
-    {   
-        
+    {
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
         int index; // Used in selectedRadioButtonIndex()
         
@@ -266,9 +270,35 @@ namespace WikiApplication
         }
 
         // Save Method
+        
+        private void SaveFile(List<Information> list)
+        {
 
+            using (Stream fileStream = File.Open("wikiList.txt", FileMode.Create))
+            {
+                BinaryFormatter s = new BinaryFormatter();
+                s.Serialize(fileStream, list);
+            }
+
+
+        }
+        
         // Load Method
+        private void LoadFile(List<Information> list)
+        {
+            using (Stream fileStream = File.OpenRead("wikiList.txt"))
+            {
+                BinaryFormatter deserializer = new BinaryFormatter();
+                list = (List<Information>)deserializer.Deserialize(fileStream);
+            }
 
+            foreach(Information info in list)
+            {
+                lvData.Items.Add(info);
+            }
+        
+
+        }
         // Check if all input boxes are valid or not
         private bool CheckIfInputsAreValid()
         {
@@ -370,5 +400,15 @@ namespace WikiApplication
             Clear();
         }
 
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFile(Wiki);
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            LoadFile(Wiki);
+        }
     }
+   
 }
