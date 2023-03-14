@@ -40,6 +40,7 @@ namespace WikiApplication
         }
         public bool isRadio1Checked { get; set; }
         public bool isRadio2Checked { get; set; }
+        public bool isLinear { get; set; }
         public int rdoSelectedIndex { get; set; }
         public string rdoSelectedType { get; set; }
         // Constructor 

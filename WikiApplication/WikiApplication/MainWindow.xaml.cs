@@ -23,7 +23,7 @@ namespace WikiApplication
     {   
         
         List<Information> Wiki= new List<Information>(); // Wiki List of type Information
-        int index = -1;
+        int index;
         
         
         public MainWindow()
@@ -32,30 +32,30 @@ namespace WikiApplication
             
         }
         // --- Methods --- //
+        // Check if both Radio buttons are valid
+        private bool areBothRadioButtonsValid()
+        {
+            return rdoLinear.IsChecked == true || rdoNonLinear.IsChecked == true;
+        }
         // Add Method
         private void Add()
         {
             // Creates a new object of Information
             Information newInformation = new Information();
-            bool bothRdoChecked = true;
+          
             // Checks if this object has linear or non linear radio button clicked, which button is clicked in Information.cs
             // This helps add to the functionality of when selecting an entry, the correct radio button is re-checked
             if (rdoLinear.IsChecked == true)
             {
-                newInformation.isRadio1Checked = true;
+                newInformation.isLinear = true;
             }
             else if (rdoNonLinear.IsChecked == true)
             {
-                newInformation.isRadio2Checked = true;
+                newInformation.isLinear = false;
             }
-            else
-            {
-                bothRdoChecked = false;
-            }
-
 
             // Combo box - Checks if user has selected an option that is an option or if they leave it empty
-            if (CheckIfInputsAreValid() && bothRdoChecked != false)
+            if (CheckIfInputsAreValid())
             {
                 // Checks the currently selected Radio button Index and Type (Linear/Non-Linear), assigns each variable to this object
                 CheckRadioButtonValue();
@@ -108,7 +108,6 @@ namespace WikiApplication
 
             if (isDuplicate)
             {
-                MessageBox.Show("Found a duplicate");
                 SortandDisplay();
                 Clear();
                 return true;
@@ -140,8 +139,6 @@ namespace WikiApplication
         // Gets the index of the currently selected Radio Button
         private int SelectedRadioButtonIndex()
         {
-
-            index = -1;
             if (rdoLinear.IsChecked == true)
             {
                 index = 0;
@@ -149,6 +146,10 @@ namespace WikiApplication
             else if (rdoNonLinear.IsChecked == true)
             {
                 index = 1;
+            }
+            else
+            {
+                index = -1;
             }
             return index;
          }
@@ -183,52 +184,37 @@ namespace WikiApplication
         // Edit Method
         private void EditEntry()
         {
-            object selectedItem = lvData.SelectedItem;
-            Information newInformation = new Information();
-            try
+            int selectedIndex = lvData.SelectedIndex;
+           
+            if (selectedIndex != -1)
             {
-                if (selectedItem != null)
+                // Get the data object for the selected item
+                Information dataObject = (Information)lvData.SelectedItem;
+
+                // Update the data object's properties
+                dataObject.name = txtboxName.Text;
+                dataObject.category = cbCategory.SelectedItem.ToString()!;
+                dataObject.definition = txtboxDef.Text;
+                dataObject.rdoSelectedIndex = SelectedRadioButtonIndex();
+                dataObject.rdoSelectedType = SelectedRadioButton();
+
+                // Update the radio button values
+                if(rdoLinear.IsChecked == true)
                 {
-                    // Creates an object of the selected item
-                    Information dataObject = (Information)selectedItem;
-
-                    // resets both radio button checks to false
-                    dataObject.isRadio1Checked = false;
-                    dataObject.isRadio2Checked = false;
-
-                    // sets the selected items variables
-                    dataObject.name = txtboxName.Text;
-                    dataObject.category = cbCategory.SelectedItem.ToString()!;
-                    dataObject.definition = txtboxDef.Text;
-
-                    // Checks for what radio button is clicked and stores it
-                    CheckRadioButtonValue();
-                    dataObject.rdoSelectedIndex = SelectedRadioButtonIndex();
-                    dataObject.rdoSelectedType = SelectedRadioButton();
-
-                    // gets stored value of which radio button is clicked
-                    if (rdoLinear.IsChecked == true)
-                    {
-                        dataObject.isRadio1Checked = true;
-                        if (dataObject.isRadio1Checked)
-                        {
-                            rdoLinear.IsChecked = true;
-                        }
-                        else if (dataObject.isRadio2Checked)
-                        {
-                            rdoNonLinear.IsChecked = true;
-                        }
-                    }
-                    else if (rdoNonLinear.IsChecked == true)
-                    {
-                        dataObject.isRadio2Checked = true;
-                    }
+                    dataObject.isLinear = true;
                 }
-            } catch (Exception)
+                else 
+                {
+                    dataObject.isLinear = false;
+                }
+            }
+            else
             {
-                MessageBox.Show("Exception Caught");
+                Clear();
             }
         }
+       
+       
         // Sort and Display Method
         private void SortandDisplay()
         {
@@ -258,7 +244,7 @@ namespace WikiApplication
         private bool CheckIfInputsAreValid()
         {
             if (!string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text) &&
-                cbCategory.SelectedItem != null)
+                cbCategory.SelectedIndex >= 0 && areBothRadioButtonsValid())
             {
                 return true;
             }
@@ -279,6 +265,10 @@ namespace WikiApplication
                 SortandDisplay();
                 Clear();
             }
+            else
+            {
+                MessageBox.Show("Found a duplicate");
+            }
         }
         // Window Loaded - When the application starts this Method is automatically ran
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -289,20 +279,19 @@ namespace WikiApplication
         // Selected Entry Event - When you click on an entry in the list view, this will display its items back into its related controls
         private void Selected_Entry(object sender, SelectionChangedEventArgs e)
         {
-            var wikiItems = (Information)((ListView)sender).SelectedItem;
-           
-            if (wikiItems != null)
-            {
-                txtboxName.Text = wikiItems.name;
-                cbCategory.SelectedItem = wikiItems.category;
-                txtboxDef.Text = wikiItems.definition;
 
-                // Checks which radio button was checked on creation of object, checks the correct button when entry is selected
-                if (wikiItems.isRadio1Checked)
+            Information selectedItem = (Information)lvData.SelectedItem;
+            if (selectedItem != null)
+            {
+                txtboxName.Text = selectedItem.name;
+                txtboxDef.Text = selectedItem.definition;
+                cbCategory.SelectedItem = selectedItem.category;
+
+                if(selectedItem.isLinear == true)
                 {
                     rdoLinear.IsChecked = true;
                 }
-                else if (wikiItems.isRadio2Checked)
+                else
                 {
                     rdoNonLinear.IsChecked = true;
                 }
@@ -318,19 +307,20 @@ namespace WikiApplication
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            int selectedItem = lvData.SelectedIndex;
-            if (selectedItem != -1 && CheckIfInputsAreValid())
+            if (!IsNameDuplciate() && CheckIfInputsAreValid())
             {
                 EditEntry();
                 Clear();
                 SortandDisplay();
-                
             }
             else
             {
-
+                MessageBox.Show("Found an error whilst trying to edit this item, try again");
                 Clear();
+                SortandDisplay();
             }
+           
+            
         }
 
         // Search Button
