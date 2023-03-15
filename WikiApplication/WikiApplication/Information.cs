@@ -73,7 +73,7 @@ namespace WikiApplication
 
         public int Compare(Information? x, Information? y)
         {
-            return x.Name.CompareTo(y.Name);
+            return x.Name.ToLower().CompareTo(y.Name.ToLower()); // toLower allows the user to search without worrying about capitalization
         }
     }
 }

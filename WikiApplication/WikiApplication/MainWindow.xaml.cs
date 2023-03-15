@@ -38,7 +38,7 @@ namespace WikiApplication
         // --- Methods --- //
 
         // Check if both Radio buttons are valid
-        private bool areBothRadioButtonsValid()
+        private bool AreBothRadioButtonsValid()
         {
             return rdoLinear.IsChecked == true || rdoNonLinear.IsChecked == true;
         }
@@ -238,6 +238,7 @@ namespace WikiApplication
             // if search was successful (if index is a equal to or greater than 0), else displays error
             if (index >= 0)
             {
+                lvData.SelectedIndex = -1; // resets the selected index
                 Information foundEntry = Wiki[index];
                 txtboxName.Text = foundEntry.name;
                 cbCategory.SelectedItem = foundEntry.category;
@@ -253,6 +254,7 @@ namespace WikiApplication
             }
             else
             {
+                lvData.SelectedIndex = -1; // resets the selected index
                 MessageBox.Show("The entry you are searching for doesn't exist");
                 Clear();
             }
@@ -308,6 +310,8 @@ namespace WikiApplication
                     list = (List<Information>)deserializer.Deserialize(fileStream);
                 }
 
+                lvData.Items.Clear();
+                Wiki.Clear();
                 foreach (Information info in list)
                 {
                     lvData.Items.Add(info);
@@ -321,7 +325,7 @@ namespace WikiApplication
         private bool CheckIfInputsAreValid()
         {
             if (!string.IsNullOrEmpty(txtboxName.Text) && !string.IsNullOrEmpty(txtboxDef.Text) &&
-                cbCategory.SelectedIndex >= 0 && areBothRadioButtonsValid())
+                cbCategory.SelectedIndex >= 0 && AreBothRadioButtonsValid())
             {
                 return true;
             }
@@ -415,6 +419,7 @@ namespace WikiApplication
         // Text Box Name double click event
         private void txtboxName_doubleClick(object sender, MouseButtonEventArgs e)
         {
+            lvData.SelectedIndex = -1; // resets the selected index
             Clear();
         }
 
